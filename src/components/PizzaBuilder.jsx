@@ -11,6 +11,7 @@ import {
 	TextField,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { v4 as uuid } from 'uuid';
 
 function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 	const [selectedToppings, setSelectedToppings] = useState([]);
@@ -52,6 +53,7 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 
 		// Create a new pizza object and add it to the pizza list
 		const newPizza = {
+			id: uuid(),
 			name: newPizzaName,
 			toppings: selectedToppings,
 		};

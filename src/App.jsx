@@ -2,11 +2,12 @@ import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
+import { v4 as uuid } from 'uuid';
 
 import toppings_image from './images/toppings_image.jpg';
-import PizzaList from './components/PizzaList';
 import ListWithCRUD from './components/ListWithCRUD';
 import PizzaBuilder from './components/PizzaBuilder';
+import PizzaCard from './components/PizzaCard';
 
 import CheeseImage from './images/pizzas/cheese_pizza.webp';
 import HawaiianImage from './images/pizzas/hawaiian_pizza.jpg';
@@ -41,26 +42,31 @@ const toppings = [
 
 const examplePizzas = [
 	{
+		id: uuid(),
 		name: 'Cheese',
 		toppings: ['Tomato sauce', 'Mozzarella cheese'],
 		image: CheeseImage,
 	},
 	{
+		id: uuid(),
 		name: 'Hawaiian',
 		toppings: ['Tomato sauce', 'Ham', 'Pineapple', 'Mozzarella cheese'],
 		image: HawaiianImage,
 	},
 	{
+		id: uuid(),
 		name: 'Pepperoni',
 		toppings: ['Tomato sauce', 'Pepperoni', 'Mozzarella cheese'],
 		image: PepperoniImage,
 	},
 	{
+		id: uuid(),
 		name: 'Sausage',
 		toppings: ['Tomato sauce', 'Sausage', 'Mozzarella cheese'],
 		image: SausageImage,
 	},
 	{
+		id: uuid(),
 		name: 'Supreme',
 		toppings: [
 			'Tomato sauce',
@@ -80,6 +86,23 @@ function App() {
 		toppings.sort((a, b) => a.localeCompare(b))
 	);
 	const [pizzas, setPizzas] = useState(examplePizzas);
+
+	console.log('ALL PIZZAS', pizzas);
+
+	// Function to handle editing a pizza card
+	const handleEdit = (updatedPizza) => {
+		setPizzas(
+			pizzas.map((pizza) => (pizza === updatedPizza ? updatedPizza : pizza))
+		);
+	};
+
+	// Function to handle deleting a pizza card
+	const handleDelete = (pizzaToDelete) => {
+		console.log(pizzaToDelete);
+		setPizzas((prevPizzas) =>
+			prevPizzas.filter((pizza) => pizza !== pizzaToDelete)
+		);
+	};
 
 	return (
 		<Grid container className='App'>
@@ -159,7 +182,17 @@ function App() {
 					ALL PIZZAS
 				</Typography>
 			</Grid>
-			<PizzaList pizzas={pizzas} />
+			<Grid container spacing={2} sx={{ pb: 5, ml: 2, mr: 2 }}>
+				{pizzas.map((pizza) => (
+					<Grid key={pizza.id} item xs={12} sm={6} md={4} xl={3}>
+						<PizzaCard
+							pizza={pizza}
+							onEdit={handleEdit}
+							onDelete={handleDelete}
+						/>
+					</Grid>
+				))}
+			</Grid>
 			<PizzaBuilder
 				toppings={toppingsList}
 				pizzaList={pizzas}
