@@ -14,10 +14,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-const ListWithCRUD = ({ listItems = [] }) => {
-	const [items, setItems] = useState(
-		listItems.sort((a, b) => a.localeCompare(b))
-	);
+const ListWithCRUD = ({ listItems = [], updateList }) => {
 	const [inputValue, setInputValue] = useState('');
 	const [editIndex, setEditIndex] = useState(null);
 	const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
@@ -31,19 +28,21 @@ const ListWithCRUD = ({ listItems = [] }) => {
 	const handleAddItem = () => {
 		if (inputValue.trim() !== '') {
 			if (editIndex !== null) {
-				const updatedItems = [...items];
+				const updatedItems = [...listItems];
 				updatedItems[editIndex] = inputValue;
-				setItems(updatedItems.sort((a, b) => a.localeCompare(b)));
+				updateList(updatedItems.sort((a, b) => a.localeCompare(b)));
 				setEditIndex(null);
 			} else {
-				setItems([...items, inputValue].sort((a, b) => a.localeCompare(b)));
+				updateList(
+					[...listItems, inputValue].sort((a, b) => a.localeCompare(b))
+				);
 			}
 			setInputValue('');
 		}
 	};
 
 	const handleEditItem = (index) => {
-		setInputValue(items[index]);
+		setInputValue(listItems[index]);
 		setEditIndex(index);
 	};
 
@@ -53,9 +52,9 @@ const ListWithCRUD = ({ listItems = [] }) => {
 	};
 
 	const handleDeleteItem = () => {
-		const updatedItems = [...items];
+		const updatedItems = [...listItems];
 		updatedItems.splice(itemToDeleteIndex, 1);
-		setItems(updatedItems);
+		updateList(updatedItems);
 		setDeleteConfirmationOpen(false);
 	};
 
@@ -68,7 +67,7 @@ const ListWithCRUD = ({ listItems = [] }) => {
 	};
 
 	return (
-		<Box sx={{ m: 1 }}>
+		<Box sx={{ m: 1, p: 2 }}>
 			<TextField
 				label='Add Item'
 				value={inputValue}
@@ -77,34 +76,38 @@ const ListWithCRUD = ({ listItems = [] }) => {
 			/>
 			<Button
 				variant='contained'
-				color='primary'
 				onClick={handleAddItem}
-				sx={{ mt: 1 }}>
+				sx={{ mt: 1, backgroundColor: '#319b8b' }}>
 				{editIndex !== null ? 'Update' : 'Add'}
 			</Button>
 			<List>
-				{items.slice(0, showAllItems ? items.length : 5).map((item, index) => (
-					<ListItem key={index}>
-						<ListItemText primary={item} />
-						<ListItemSecondaryAction>
-							<IconButton
-								edge='end'
-								aria-label='edit'
-								onClick={() => handleEditItem(index)}>
-								<EditIcon />
-							</IconButton>
-							<IconButton
-								edge='end'
-								aria-label='delete'
-								onClick={() => handleDeleteIconClick(index)}>
-								<DeleteIcon />
-							</IconButton>
-						</ListItemSecondaryAction>
-					</ListItem>
-				))}
+				{listItems
+					.slice(0, showAllItems ? listItems.length : 5)
+					.map((item, index) => (
+						<ListItem key={index}>
+							<ListItemText primary={item} />
+							<ListItemSecondaryAction>
+								<IconButton
+									edge='end'
+									aria-label='edit'
+									onClick={() => handleEditItem(index)}>
+									<EditIcon />
+								</IconButton>
+								<IconButton
+									edge='end'
+									aria-label='delete'
+									onClick={() => handleDeleteIconClick(index)}>
+									<DeleteIcon />
+								</IconButton>
+							</ListItemSecondaryAction>
+						</ListItem>
+					))}
 			</List>
-			{items.length > 5 && (
-				<Button onClick={toggleShowAllItems} variant='outlined' sx={{ mt: 1 }}>
+			{listItems.length > 5 && (
+				<Button
+					onClick={toggleShowAllItems}
+					variant='outlined'
+					sx={{ mt: 1, color: '#319b8b' }}>
 					{showAllItems ? 'Show Less' : 'Show More'}
 				</Button>
 			)}
