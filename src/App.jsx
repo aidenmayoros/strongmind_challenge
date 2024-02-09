@@ -1,9 +1,11 @@
 import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
+import Grid from '@mui/material/Grid';
 
 import toppings_image from './images/toppings_image.jpg';
 import PizzaCard from './components/PizzaCard';
+import PizzaList from './components/PizzaList';
 import ListWithCRUD from './components/ListWithCRUD';
 
 let toppings = [
@@ -35,66 +37,73 @@ function App() {
 	);
 
 	return (
-		<Box className='App'>
-			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+		<Grid container className='App'>
+			<Grid item xs={12}>
 				<Typography
 					variant='h1'
 					fontFamily='League Gothic'
 					gutterBottom
-					sx={{ color: '#8c0f04', letterSpacing: 1, mb: 0 }}>
+					sx={{
+						color: '#8c0f04',
+						letterSpacing: 1,
+						mb: 0,
+						textAlign: 'center',
+						fontSize: { xs: '3rem', md: '4rem', lg: '5rem' },
+					}}>
 					STRONGMIND PIZZA
 				</Typography>
-			</Box>
+			</Grid>
 
-			<Box sx={{ backgroundColor: '#f3f2ef' }}>
-				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-					<Typography
-						variant='h2'
-						fontFamily='League Gothic'
-						sx={{ color: '#8c0f04', letterSpacing: 1, mb: 0 }}>
-						TOPPINGS
-					</Typography>
-				</Box>
-
-				<Box
+			<Grid item xs={12}>
+				<Typography
+					variant='h3'
+					fontFamily='League Gothic'
 					sx={{
-						display: 'flex',
-						width: '100%',
+						color: '#8c0f04',
+						letterSpacing: 1,
+						mb: 0,
+						textAlign: 'center',
+						fontSize: { xs: '2rem', md: '3rem', lg: '3.75rem' },
 					}}>
+					TOPPINGS
+				</Typography>
+			</Grid>
+
+			<Grid container item xs={12}>
+				{/* Image */}
+				<Grid item xs={12} md={6}>
 					<div
 						style={{
-							flex: '0 0 50%', // Ensures the image takes 50% width
 							backgroundImage: `url(${toppings_image})`,
-							backgroundSize: 'cover', // Ensures the image covers the container
-							backgroundPosition: 'center', // Centers the image
-							width: '100vw', // Sets the image height to cover the viewport height
+							backgroundSize: 'cover',
+							backgroundPosition: 'center',
+							height: '100vh',
+							maxHeight: 450,
 						}}></div>
-					<Box
-						sx={{
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							ml: 'auto',
-							mr: 'auto',
-						}}>
+				</Grid>
+
+				{/* List */}
+				<Grid
+					item
+					xs={12}
+					md={6}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}>
+					<Box>
 						<ListWithCRUD
 							listItems={toppingsList}
 							updateList={setToppingsList}
 						/>
 					</Box>
-				</Box>
-			</Box>
-		</Box>
+				</Grid>
+			</Grid>
+
+			{/* Start of Pizzas */}
+		</Grid>
 	);
 }
 
 export default App;
-
-// sx={{
-// 	display: 'flex',
-// 	flexDirection: 'column',
-// 	alignItems: 'center',
-// 	width: '50%',
-// 	backgroundImage: { toppings_image },
-// 	backgroundRepeat: 'no-repeat',
-// }}

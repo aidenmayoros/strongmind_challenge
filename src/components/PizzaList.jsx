@@ -14,8 +14,10 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-function PizzaCard({ toppingsList = [], updatePizzaList }) {
+import PizzaCard from './PizzaCard';
+
+function PizzaList({ toppingsList = [], updatePizzaList }) {
 	return <Box></Box>;
 }
 
-export default PizzaCard;
+export default PizzaList;
