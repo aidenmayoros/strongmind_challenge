@@ -192,7 +192,12 @@ function App() {
 			<Grid
 				container
 				spacing={{ xs: 0, sm: 2, md: 5 }}
-				sx={{ pb: 5, ml: 2, mr: 2, p: 2 }}>
+				sx={{
+					pb: 5,
+					ml: { xs: 0, md: 2 },
+					mr: { xs: 0, md: 2 },
+					p: { xs: 0, md: 2 },
+				}}>
 				{pizzas.map((pizza) => (
 					<Grid
 						key={pizza.id}

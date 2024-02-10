@@ -11,6 +11,7 @@ import {
 	TextField,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DefaultPizzaImage from '../images/pizzas/default_pizza.jpg';
 import { v4 as uuid } from 'uuid';
 
 function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
@@ -56,6 +57,7 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 			id: uuid(),
 			name: newPizzaName,
 			toppings: selectedToppings,
+			image: DefaultPizzaImage,
 		};
 
 		setPizzas([...pizzaList, newPizza]);
@@ -119,7 +121,10 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 						}}>
 						Available Toppings:
 					</Typography>
-					<Grid container spacing={1}>
+					<Grid
+						container
+						spacing={1}
+						sx={{ maxHeight: '400px', overflowY: 'auto' }}>
 						{toppings.map((topping, index) => (
 							<Grid item xs={12} sm={6} key={index} sx={{ mb: 1 }}>
 								<Button
