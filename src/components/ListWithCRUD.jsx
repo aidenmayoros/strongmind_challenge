@@ -25,6 +25,16 @@ const ListWithCRUD = ({ listItems = [], updateList }) => {
 	};
 
 	const handleAddItem = () => {
+		if (
+			[...listItems]
+				.map((topping) => topping.toLowerCase())
+				.includes(inputValue.toLowerCase())
+		) {
+			alert(`${inputValue} is already in toppings list.`);
+			setInputValue('');
+			return;
+		}
+
 		if (inputValue.trim() !== '' && editItemsIndex !== null) {
 			const updatedItems = [...listItems];
 			updatedItems[editItemsIndex] = inputValue;
