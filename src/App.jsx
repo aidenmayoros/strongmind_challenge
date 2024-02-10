@@ -189,9 +189,19 @@ function App() {
 					ALL PIZZAS
 				</Typography>
 			</Grid>
-			<Grid container spacing={2} sx={{ pb: 5, ml: 2, mr: 2 }}>
+			<Grid
+				container
+				spacing={{ xs: 0, sm: 2, md: 5 }}
+				sx={{ pb: 5, ml: 2, mr: 2, p: 2 }}>
 				{pizzas.map((pizza) => (
-					<Grid key={pizza.id} item xs={12} sm={6} md={4} xl={3}>
+					<Grid
+						key={pizza.id}
+						item
+						xs={12}
+						sm={6}
+						md={4}
+						xl={3}
+						sx={{ pb: { xs: 2 } }}>
 						<PizzaCard
 							toppingsList={toppingsList}
 							pizza={pizza}

@@ -19,7 +19,6 @@ const ListWithCRUD = ({ listItems = [], updateList }) => {
 	const [editIndex, setEditIndex] = useState(null);
 	const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
 	const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
-	const [showAllItems, setShowAllItems] = useState(false);
 
 	const handleInputChange = (event) => {
 		setInputValue(event.target.value);
@@ -62,12 +61,15 @@ const ListWithCRUD = ({ listItems = [], updateList }) => {
 		setDeleteConfirmationOpen(false);
 	};
 
-	const toggleShowAllItems = () => {
-		setShowAllItems(!showAllItems);
-	};
-
 	return (
-		<Box sx={{ m: 1, p: 2 }}>
+		<Box
+			sx={{
+				m: 1,
+				p: 2,
+				maxHeight: '400px',
+				overflowY: 'auto',
+				minWidth: '300px',
+			}}>
 			<TextField
 				label='Add Item'
 				value={inputValue}
@@ -81,36 +83,26 @@ const ListWithCRUD = ({ listItems = [], updateList }) => {
 				{editIndex !== null ? 'Update' : 'Add'}
 			</Button>
 			<List>
-				{listItems
-					.slice(0, showAllItems ? listItems.length : 5)
-					.map((item, index) => (
-						<ListItem key={index}>
-							<ListItemText primary={item} />
-							<ListItemSecondaryAction>
-								<IconButton
-									edge='end'
-									aria-label='edit'
-									onClick={() => handleEditItem(index)}>
-									<EditIcon />
-								</IconButton>
-								<IconButton
-									edge='end'
-									aria-label='delete'
-									onClick={() => handleDeleteIconClick(index)}>
-									<DeleteIcon />
-								</IconButton>
-							</ListItemSecondaryAction>
-						</ListItem>
-					))}
+				{listItems.map((item, index) => (
+					<ListItem key={index}>
+						<ListItemText primary={item} />
+						<ListItemSecondaryAction>
+							<IconButton
+								edge='end'
+								aria-label='edit'
+								onClick={() => handleEditItem(index)}>
+								<EditIcon />
+							</IconButton>
+							<IconButton
+								edge='end'
+								aria-label='delete'
+								onClick={() => handleDeleteIconClick(index)}>
+								<DeleteIcon />
+							</IconButton>
+						</ListItemSecondaryAction>
+					</ListItem>
+				))}
 			</List>
-			{listItems.length > 5 && (
-				<Button
-					onClick={toggleShowAllItems}
-					variant='outlined'
-					sx={{ mt: 1, color: '#319b8b' }}>
-					{showAllItems ? 'Show Less' : 'Show More'}
-				</Button>
-			)}
 			<Modal
 				open={deleteConfirmationOpen}
 				onClose={handleCancelDelete}

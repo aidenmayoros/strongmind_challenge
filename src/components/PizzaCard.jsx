@@ -6,16 +6,17 @@ import {
 	Typography,
 	Box,
 	IconButton,
+	Modal,
+	Button,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Chip from '@mui/material/Chip';
-
 import EditPizza from './EditPizza';
 
-function ShowPizza({ pizza, pizzaName, toppings, onDelete, handleEditClick }) {
-	const handleDeleteClick = (pizza) => {
-		onDelete(pizza);
+function ShowPizza({ pizzaName, toppings, onDelete, handleEditClick }) {
+	const handleDeleteClick = () => {
+		onDelete();
 	};
 
 	return (
@@ -23,16 +24,14 @@ function ShowPizza({ pizza, pizzaName, toppings, onDelete, handleEditClick }) {
 			<Typography variant='h5' component='div'>
 				{pizzaName}
 			</Typography>
-			{toppings.map((topping) => {
-				return <Chip key={topping} label={topping} />;
-			})}
+			{toppings.map((topping) => (
+				<Chip key={topping} label={topping} />
+			))}
 			<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 				<IconButton onClick={handleEditClick}>
 					<EditIcon />
 				</IconButton>
-				<IconButton
-					onClick={() => handleDeleteClick(pizza)}
-					aria-label='delete'>
+				<IconButton onClick={handleDeleteClick} aria-label='delete'>
 					<DeleteIcon />
 				</IconButton>
 			</Box>
@@ -41,11 +40,10 @@ function ShowPizza({ pizza, pizzaName, toppings, onDelete, handleEditClick }) {
 }
 
 const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
-	const { image } = pizza;
-
 	const [pizzaName, setPizzaName] = useState(pizza.name);
 	const [pizzaToppings, setPizzaToppings] = useState(toppings);
 	const [isEditing, setIsEditing] = useState(false);
+	const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
 
 	useEffect(() => {
 		setPizzaToppings(pizza.toppings);
@@ -60,9 +58,27 @@ const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
 		setIsEditing(true);
 	};
 
+	const handleDeleteClick = () => {
+		setDeleteConfirmationOpen(true);
+	};
+
+	const handleDeleteConfirmed = (pizza) => {
+		onDelete(pizza);
+		setDeleteConfirmationOpen(false);
+	};
+
+	const handleCancelDelete = () => {
+		setDeleteConfirmationOpen(false);
+	};
+
 	return (
-		<Card sx={{ minHeight: '400px', maxHeight: 'none' }}>
-			<CardMedia component='img' height='240' image={image} alt={pizzaName} />
+		<Card sx={{ minHeight: '450px', maxHeight: 'none' }}>
+			<CardMedia
+				component='img'
+				height='240'
+				image={pizza.image}
+				alt={pizzaName}
+			/>
 			<CardContent>
 				{isEditing ? (
 					<EditPizza
@@ -75,14 +91,49 @@ const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
 					/>
 				) : (
 					<ShowPizza
-						pizza={pizza}
 						pizzaName={pizzaName}
 						toppings={pizzaToppings}
-						onDelete={onDelete}
+						onDelete={handleDeleteClick}
 						handleEditClick={handleEditClick}
 					/>
 				)}
 			</CardContent>
+			<Modal
+				open={deleteConfirmationOpen}
+				onClose={handleCancelDelete}
+				aria-labelledby='delete-modal-title'
+				aria-describedby='delete-modal-description'>
+				<Box
+					sx={{
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)',
+						bgcolor: 'background.paper',
+						boxShadow: 24,
+						p: 4,
+						maxWidth: 400,
+					}}>
+					<Typography
+						id='delete-modal-title'
+						variant='h6'
+						component='h2'
+						gutterBottom>
+						Are you sure you want to delete this pizza?
+					</Typography>
+					<Box display='flex' justifyContent='flex-end' mt={2}>
+						<Button onClick={handleCancelDelete} color='primary' sx={{ mr: 2 }}>
+							Cancel
+						</Button>
+						<Button
+							onClick={() => handleDeleteConfirmed(pizza)}
+							variant='contained'
+							color='error'>
+							Delete
+						</Button>
+					</Box>
+				</Box>
+			</Modal>
 		</Card>
 	);
 };
