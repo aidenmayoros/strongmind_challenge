@@ -16,8 +16,8 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const ListWithCRUD = ({ listItems = [], updateList }) => {
 	const [inputValue, setInputValue] = useState('');
-	const [editIndex, setEditIndex] = useState(null);
-	const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+	const [editItemsIndex, setEditItemsIndex] = useState(null);
+	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
 
 	const handleInputChange = (event) => {
@@ -25,40 +25,36 @@ const ListWithCRUD = ({ listItems = [], updateList }) => {
 	};
 
 	const handleAddItem = () => {
-		if (inputValue.trim() !== '') {
-			if (editIndex !== null) {
-				const updatedItems = [...listItems];
-				updatedItems[editIndex] = inputValue;
-				updateList(updatedItems.sort((a, b) => a.localeCompare(b)));
-				setEditIndex(null);
-			} else {
-				updateList(
-					[...listItems, inputValue].sort((a, b) => a.localeCompare(b))
-				);
-			}
-			setInputValue('');
+		if (inputValue.trim() !== '' && editItemsIndex !== null) {
+			const updatedItems = [...listItems];
+			updatedItems[editItemsIndex] = inputValue;
+			updateList(updatedItems.sort((a, b) => a.localeCompare(b)));
+			setEditItemsIndex(null);
+		} else {
+			updateList([...listItems, inputValue].sort((a, b) => a.localeCompare(b)));
 		}
+		setInputValue('');
 	};
 
 	const handleEditItem = (index) => {
 		setInputValue(listItems[index]);
-		setEditIndex(index);
+		setEditItemsIndex(index);
 	};
 
 	const handleDeleteIconClick = (index) => {
 		setItemToDeleteIndex(index);
-		setDeleteConfirmationOpen(true);
+		setDeleteModalOpen(true);
 	};
 
 	const handleDeleteItem = () => {
 		const updatedItems = [...listItems];
 		updatedItems.splice(itemToDeleteIndex, 1);
 		updateList(updatedItems);
-		setDeleteConfirmationOpen(false);
+		setDeleteModalOpen(false);
 	};
 
 	const handleCancelDelete = () => {
-		setDeleteConfirmationOpen(false);
+		setDeleteModalOpen(false);
 	};
 
 	return (
@@ -80,7 +76,7 @@ const ListWithCRUD = ({ listItems = [], updateList }) => {
 				variant='contained'
 				onClick={handleAddItem}
 				sx={{ mt: 1, backgroundColor: '#319b8b' }}>
-				{editIndex !== null ? 'Update' : 'Add'}
+				{editItemsIndex !== null ? 'Update' : 'Add'}
 			</Button>
 			<List>
 				{listItems.map((item, index) => (
@@ -104,7 +100,7 @@ const ListWithCRUD = ({ listItems = [], updateList }) => {
 				))}
 			</List>
 			<Modal
-				open={deleteConfirmationOpen}
+				open={deleteModalOpen}
 				onClose={handleCancelDelete}
 				aria-labelledby='delete-modal-title'
 				aria-describedby='delete-modal-description'>

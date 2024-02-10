@@ -83,7 +83,6 @@ const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
 			<CardContent>
 				{isEditing ? (
 					<EditPizza
-						pizza={pizza}
 						pizzaName={pizzaName}
 						setPizzaName={setPizzaName}
 						toppings={pizzaToppings}

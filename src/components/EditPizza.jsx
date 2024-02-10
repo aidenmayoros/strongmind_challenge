@@ -4,7 +4,6 @@ import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 
 function EditPizza({
-	pizza,
 	pizzaName,
 	setPizzaName,
 	toppings,

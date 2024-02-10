@@ -126,7 +126,16 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 						spacing={1}
 						sx={{ maxHeight: '400px', overflowY: 'auto' }}>
 						{toppings.map((topping, index) => (
-							<Grid item xs={12} sm={6} key={index} sx={{ mb: 1 }}>
+							<Grid
+								item
+								xs={12}
+								sm={6}
+								key={index}
+								sx={{
+									mb: 1,
+									ml: { xs: '2rem', sm: '0' },
+									mr: { xs: '2rem', sm: '0' },
+								}}>
 								<Button
 									variant='contained'
 									color='primary'
