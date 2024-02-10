@@ -75,6 +75,8 @@ const ListWithCRUD = ({ listItems = [], updateList }) => {
 				maxHeight: '400px',
 				overflowY: 'auto',
 				minWidth: '300px',
+				backgroundColor: '#fedfdf85',
+				borderRadius: '4px',
 			}}>
 			<TextField
 				label='Add Item'

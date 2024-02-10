@@ -25,7 +25,11 @@ function ShowPizza({ pizzaName, toppings, onDelete, handleEditClick }) {
 				{pizzaName}
 			</Typography>
 			{toppings.map((topping) => (
-				<Chip key={topping} label={topping} sx={{ m: 1 }} />
+				<Chip
+					key={topping}
+					label={topping}
+					sx={{ m: 0.5, backgroundColor: '#605a55', color: '#ffffff' }}
+				/>
 			))}
 			<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 				<IconButton onClick={handleEditClick}>
@@ -73,7 +77,12 @@ const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
 	};
 
 	return (
-		<Card sx={{ minHeight: { xs: 'none', md: '450px' }, maxHeight: 'none' }}>
+		<Card
+			sx={{
+				minHeight: { xs: 'none', md: '450px' },
+				maxHeight: 'none',
+				backgroundColor: '#fedfdf85',
+			}}>
 			<CardMedia
 				component='img'
 				height='240'

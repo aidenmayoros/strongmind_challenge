@@ -68,7 +68,7 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 	};
 
 	return (
-		<Box>
+		<Box sx={{ m: 5 }}>
 			<Typography
 				variant='h3'
 				fontFamily='League Gothic'
@@ -186,6 +186,7 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 								maxWidth: { xs: '200px', md: 'none' },
 								border: '1px solid rgba(0, 0, 0, .2)',
 								borderRadius: '4px',
+								backgroundColor: '#fedfdf85',
 							}}>
 							<List
 								sx={{
