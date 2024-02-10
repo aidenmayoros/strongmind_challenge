@@ -87,18 +87,25 @@ function App() {
 	);
 	const [pizzas, setPizzas] = useState(examplePizzas);
 
-	console.log('ALL PIZZAS', pizzas);
-
 	// Function to handle editing a pizza card
 	const handleEdit = (updatedPizza) => {
-		setPizzas(
-			pizzas.map((pizza) => (pizza === updatedPizza ? updatedPizza : pizza))
-		);
+		const newPizzaList = [...pizzas];
+
+		const foundIndex = newPizzaList.findIndex((pizza) => {
+			return pizza.id === updatedPizza.id;
+		});
+
+		if (foundIndex === -1) {
+			return;
+		}
+
+		newPizzaList.splice(foundIndex, 1, updatedPizza);
+
+		setPizzas(newPizzaList);
 	};
 
 	// Function to handle deleting a pizza card
 	const handleDelete = (pizzaToDelete) => {
-		console.log(pizzaToDelete);
 		setPizzas((prevPizzas) =>
 			prevPizzas.filter((pizza) => pizza !== pizzaToDelete)
 		);
@@ -186,8 +193,10 @@ function App() {
 				{pizzas.map((pizza) => (
 					<Grid key={pizza.id} item xs={12} sm={6} md={4} xl={3}>
 						<PizzaCard
+							toppingsList={toppingsList}
 							pizza={pizza}
-							onEdit={handleEdit}
+							toppings={pizza.toppings}
+							onEditSave={handleEdit}
 							onDelete={handleDelete}
 						/>
 					</Grid>

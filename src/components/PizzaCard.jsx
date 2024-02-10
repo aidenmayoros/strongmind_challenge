@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Card,
 	CardMedia,
@@ -6,78 +6,81 @@ import {
 	Typography,
 	Box,
 	IconButton,
-	TextField,
-	Button,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import Chip from '@mui/material/Chip';
 
-const PizzaCard = ({ pizza, onDelete, onEdit }) => {
-	const { name: initialName, image, toppings: initialToppings } = pizza;
-	const [name, setName] = useState(initialName);
-	const [toppings, setToppings] = useState(initialToppings.join(', '));
+import EditPizza from './EditPizza';
+
+function ShowPizza({ pizza, pizzaName, toppings, onDelete, handleEditClick }) {
+	const handleDeleteClick = (pizza) => {
+		onDelete(pizza);
+	};
+
+	return (
+		<>
+			<Typography variant='h5' component='div'>
+				{pizzaName}
+			</Typography>
+			{toppings.map((topping) => {
+				return <Chip key={topping} label={topping} />;
+			})}
+			<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+				<IconButton onClick={handleEditClick}>
+					<EditIcon />
+				</IconButton>
+				<IconButton
+					onClick={() => handleDeleteClick(pizza)}
+					aria-label='delete'>
+					<DeleteIcon />
+				</IconButton>
+			</Box>
+		</>
+	);
+}
+
+const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
+	const { image } = pizza;
+
+	const [pizzaName, setPizzaName] = useState(pizza.name);
+	const [pizzaToppings, setPizzaToppings] = useState(toppings);
 	const [isEditing, setIsEditing] = useState(false);
+
+	useEffect(() => {
+		setPizzaToppings(pizza.toppings);
+	}, [pizza]);
+
+	const handleSaveClick = (newPizzaName, newToppings) => {
+		onEditSave({ ...pizza, name: newPizzaName, toppings: newToppings });
+		setIsEditing(false);
+	};
 
 	const handleEditClick = () => {
 		setIsEditing(true);
 	};
 
-	const handleSaveClick = () => {
-		const updatedToppings = toppings.split(',').map((t) => t.trim());
-		onEdit({ ...pizza, name, toppings: updatedToppings });
-		setIsEditing(false);
-	};
-
-	const handleDeleteClick = (pizza) => {
-		onDelete(pizza); // Pass the index to onDelete
-	};
-
 	return (
 		<Card sx={{ minHeight: '400px', maxHeight: 'none' }}>
-			<CardMedia component='img' height='240' image={image} alt={name} />
+			<CardMedia component='img' height='240' image={image} alt={pizzaName} />
 			<CardContent>
 				{isEditing ? (
-					<>
-						<TextField
-							label='Pizza Name'
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							fullWidth
-							margin='normal'
-						/>
-						<TextField
-							label='Toppings'
-							value={toppings}
-							onChange={(e) => setToppings(e.target.value)}
-							fullWidth
-							margin='normal'
-						/>
-						<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-							<Button onClick={handleSaveClick}>Save</Button>
-						</Box>
-					</>
+					<EditPizza
+						pizza={pizza}
+						pizzaName={pizzaName}
+						setPizzaName={setPizzaName}
+						toppings={pizzaToppings}
+						toppingsList={toppingsList}
+						handleSaveClick={handleSaveClick}
+					/>
 				) : (
-					<>
-						<Typography variant='h5' component='div'>
-							{name}
-						</Typography>
-						<Typography
-							variant='body2'
-							color='text.secondary'
-							sx={{ overflow: 'hidden' }}>
-							Toppings: {toppings}
-						</Typography>
-						<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-							<IconButton onClick={handleEditClick}>
-								<EditIcon />
-							</IconButton>
-							<IconButton
-								onClick={() => handleDeleteClick(pizza)}
-								aria-label='delete'>
-								<DeleteIcon />
-							</IconButton>
-						</Box>
-					</>
+					<ShowPizza
+						pizza={pizza}
+						pizzaName={pizzaName}
+						toppings={pizzaToppings}
+						onDelete={onDelete}
+						handleEditClick={handleEditClick}
+					/>
 				)}
 			</CardContent>
 		</Card>
