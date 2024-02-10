@@ -105,40 +105,8 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 				</Button>
 			</Box>
 			<Grid container spacing={2}>
-				<Grid item xs={12}>
-					<Typography
-						variant='h6'
-						gutterBottom
-						sx={{
-							color: '#8c0f04',
-							letterSpacing: 1,
-							mb: 0,
-							p: 2,
-							textAlign: 'center',
-						}}>
-						Selected Toppings:
-					</Typography>
-					<List
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}>
-						{selectedToppings.map((topping, index) => (
-							<ListItem key={index} sx={{ maxWidth: '300px' }}>
-								<ListItemText primary={topping} />
-								<IconButton
-									edge='end'
-									aria-label='delete'
-									onClick={() => handleRemoveTopping(topping)}>
-									<DeleteIcon />
-								</IconButton>
-							</ListItem>
-						))}
-					</List>
-				</Grid>
-				<Grid item xs={12} sx={{ minHeight: '50vh' }}>
+				{/* Available Toppings section */}
+				<Grid item xs={12} md={6} sx={{ order: { xs: 2, md: 1 } }}>
 					<Typography
 						variant='h6'
 						gutterBottom
@@ -153,7 +121,7 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 					</Typography>
 					<Grid container spacing={1}>
 						{toppings.map((topping, index) => (
-							<Grid item xs={12} sm={6} md={3} key={index} sx={{ mb: 1 }}>
+							<Grid item xs={12} sm={6} key={index} sx={{ mb: 1 }}>
 								<Button
 									variant='contained'
 									color='primary'
@@ -169,6 +137,63 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 							</Grid>
 						))}
 					</Grid>
+				</Grid>
+				{/* Selected Toppings section */}
+				<Grid
+					item
+					xs={12}
+					md={6}
+					sx={{ order: { xs: 1, md: 2 }, minHeight: { md: '50vh' } }}>
+					<Typography
+						variant='h6'
+						gutterBottom
+						sx={{
+							color: '#8c0f04',
+							letterSpacing: 1,
+							mb: 0,
+							pt: 2,
+							textAlign: 'center',
+						}}>
+						Selected Toppings:
+					</Typography>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+						}}>
+						<Box
+							sx={{
+								m: 1,
+								p: 2,
+								minHeight: { xs: '200px', md: '300px' },
+								maxHeight: { xs: '200px', md: '400px' },
+								overflowY: 'auto',
+								minWidth: { xs: '200px', md: '300px' },
+								maxWidth: { xs: '200px', md: 'none' },
+								border: '1px solid rgba(0, 0, 0, .2)',
+								borderRadius: '4px',
+							}}>
+							<List
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}>
+								{selectedToppings.map((topping, index) => (
+									<ListItem key={index} sx={{ maxWidth: '300px' }}>
+										<ListItemText primary={topping} />
+										<IconButton
+											edge='end'
+											aria-label='delete'
+											onClick={() => handleRemoveTopping(topping)}>
+											<DeleteIcon />
+										</IconButton>
+									</ListItem>
+								))}
+							</List>
+						</Box>
+					</Box>
 				</Grid>
 			</Grid>
 		</Box>

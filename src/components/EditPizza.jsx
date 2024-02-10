@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, TextField, Button } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
@@ -12,6 +12,8 @@ function EditPizza({
 	handleSaveClick,
 }) {
 	const [draftToppings, setDraftToppings] = useState(toppings);
+	const [initialPizzaName, setInitialPizzaName] = useState(pizzaName);
+	const [initialToppings, setInitialToppings] = useState(toppings);
 
 	const toppingsNotOnPizza = toppingsList.filter((toppingFromList) => {
 		return !draftToppings.includes(toppingFromList);
@@ -33,7 +35,9 @@ function EditPizza({
 		handleSaveClick(pizzaName, draftToppings);
 	}
 
-	function handleCancelDraft() {}
+	function handleCancelDraft() {
+		handleSaveClick(initialPizzaName, initialToppings);
+	}
 
 	function renderToppingsOnPizza() {
 		return draftToppings.map((draftTopping) => {
@@ -42,6 +46,7 @@ function EditPizza({
 					key={draftTopping}
 					onDelete={() => handleDeleteToppingFromPizza(draftTopping)}
 					label={draftTopping}
+					sx={{ m: 1 }}
 				/>
 			);
 		});
@@ -54,6 +59,7 @@ function EditPizza({
 					key={toppingNotOnPizza}
 					onClick={() => handleAddToppingToPizza(toppingNotOnPizza)}
 					label={toppingNotOnPizza}
+					sx={{ m: 1 }}
 				/>
 			);
 		});

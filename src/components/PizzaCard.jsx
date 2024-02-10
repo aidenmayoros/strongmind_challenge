@@ -25,7 +25,7 @@ function ShowPizza({ pizzaName, toppings, onDelete, handleEditClick }) {
 				{pizzaName}
 			</Typography>
 			{toppings.map((topping) => (
-				<Chip key={topping} label={topping} />
+				<Chip key={topping} label={topping} sx={{ m: 1 }} />
 			))}
 			<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 				<IconButton onClick={handleEditClick}>
@@ -46,6 +46,7 @@ const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
 	const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
 
 	useEffect(() => {
+		setPizzaName(pizza.name);
 		setPizzaToppings(pizza.toppings);
 	}, [pizza]);
 
