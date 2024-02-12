@@ -7,10 +7,19 @@ require('dotenv').config();
 // Create an instance of Express
 const app = express();
 const path = require('path');
-app.use(express.static(path.join(__dirname, 'frontend_build')));
+
+const allowedOrigins = ['http://localhost:3000', 'http://54.81.36.144:8080'];
+
+const corsOptions = {
+	origin: function (origin, callback) {
+		// Check if the origin is in the list of allowed origins
+		const isAllowed = allowedOrigins.includes(origin) || !origin;
+		callback(null, isAllowed);
+	},
+};
 
 // Middleware to enable CORS
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Body parser middleware to handle JSON data
 app.use(express.json());
@@ -171,6 +180,8 @@ app.post('/update-global-topping', async (req, res) => {
 			.json({ error: `Error updating new global topping: ${name}` });
 	}
 });
+
+app.use(express.static(path.join(__dirname, 'frontend_build')));
 
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, 'frontend_build', 'index.html'));
