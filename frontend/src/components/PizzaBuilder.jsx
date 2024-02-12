@@ -12,9 +12,16 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DefaultPizzaImage from '../images/pizzas/default_pizza.jpg';
-import { v4 as uuid } from 'uuid';
+import axios from 'axios';
+import { PizzaURL } from '../utils/pizza_url';
 
-function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
+import CheesePizzaImage from '../images/pizzas/cheese_pizza.webp';
+import HawaiianPizzaImage from '../images/pizzas/hawaiian_pizza.jpg';
+import PepperoniImage from '../images/pizzas/pepperoni_pizza.webp';
+import SausageImage from '../images/pizzas/sausage_pizza.webp';
+import SupremeImage from '../images/pizzas/supreme_pizza.jpg';
+
+function PizzaBuilder({ globalToppings, pizzas, setPizzas }) {
 	const [selectedToppings, setSelectedToppings] = useState([]);
 	const [newPizzaName, setNewPizzaName] = useState('');
 
@@ -24,11 +31,25 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 		}
 	};
 
+	const createNewPizza = async (pizza) => {
+		try {
+			let result = await axios.post(`${PizzaURL}/create-pizza`, pizza);
+
+			setPizzas([...pizzas, result.data]);
+
+			// Reset state for the next pizza
+			setSelectedToppings([]);
+			setNewPizzaName('');
+		} catch (err) {
+			alert('There was an issue creating a new pizza');
+		}
+	};
+
 	const handleRemoveTopping = (topping) => {
 		setSelectedToppings(selectedToppings.filter((item) => item !== topping));
 	};
 
-	const handleAddPizza = () => {
+	const handleCreatePizza = async () => {
 		if (!newPizzaName.trim()) {
 			alert('Please enter a name for the pizza.');
 			return;
@@ -40,7 +61,7 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 		}
 
 		// Check if pizza with the same name or toppings already exists
-		const existingPizza = pizzaList.find(
+		const existingPizza = pizzas.find(
 			(pizza) =>
 				pizza.name.toLowerCase() === newPizzaName.toLowerCase() ||
 				JSON.stringify(pizza.toppings.sort()) ===
@@ -52,19 +73,27 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 			return;
 		}
 
-		// Create a new pizza object and add it to the pizza list
+		// If name is one of the common pizzas use their locally saved images
+		function checkDefaultPizzaImages(name) {
+			const pizzaImages = {
+				cheese: CheesePizzaImage,
+				pepperoni: PepperoniImage,
+				hawaiian: HawaiianPizzaImage,
+				sausage: SausageImage,
+				supreme: SupremeImage,
+			};
+
+			const lowercaseName = name.toLowerCase();
+			return pizzaImages[lowercaseName] || DefaultPizzaImage;
+		}
+
 		const newPizza = {
-			id: uuid(),
 			name: newPizzaName,
 			toppings: selectedToppings,
-			image: DefaultPizzaImage,
+			image: checkDefaultPizzaImages(newPizzaName),
 		};
 
-		setPizzas([...pizzaList, newPizza]);
-
-		// Reset state for the next pizza
-		setSelectedToppings([]);
-		setNewPizzaName('');
+		await createNewPizza(newPizza);
 	};
 
 	return (
@@ -101,7 +130,7 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 				<Button
 					variant='contained'
 					color='primary'
-					onClick={handleAddPizza}
+					onClick={handleCreatePizza}
 					sx={{ m: 1 }}>
 					Add Pizza
 				</Button>
@@ -125,12 +154,12 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 						container
 						spacing={1}
 						sx={{ maxHeight: '400px', overflowY: 'auto' }}>
-						{toppings.map((topping, index) => (
+						{globalToppings.map((globalTopping) => (
 							<Grid
 								item
 								xs={12}
 								sm={6}
-								key={index}
+								key={globalTopping._id}
 								sx={{
 									mb: 1,
 									ml: { xs: '2rem', sm: '0' },
@@ -145,8 +174,8 @@ function PizzaBuilder({ toppings, pizzaList, setPizzas }) {
 										backgroundColor: '#319b8b',
 										width: '100%',
 									}}
-									onClick={() => handleAddTopping(topping)}>
-									{topping}
+									onClick={() => handleAddTopping(globalTopping.name)}>
+									{globalTopping.name}
 								</Button>
 							</Grid>
 						))}

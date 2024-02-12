@@ -2,114 +2,15 @@ import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { v4 as uuid } from 'uuid';
 
 import toppings_image from './images/toppings_image.jpg';
-import ListWithCRUD from './components/ListWithCRUD';
+import GlobalToppingsList from './components/GlobalToppings/GlobalToppingsList';
 import PizzaBuilder from './components/PizzaBuilder';
-import PizzaCard from './components/PizzaCard';
-
-import CheeseImage from './images/pizzas/cheese_pizza.webp';
-import HawaiianImage from './images/pizzas/hawaiian_pizza.jpg';
-import PepperoniImage from './images/pizzas/pepperoni_pizza.webp';
-import SausageImage from './images/pizzas/sausage_pizza.webp';
-import SupremeImage from './images/pizzas/supreme_pizza.jpg';
-
-const toppings = [
-	'Pepperoni',
-	'Mushrooms',
-	'Onions',
-	'Sausage',
-	'Bacon',
-	'Extra cheese',
-	'Black olives',
-	'Green peppers',
-	'Pineapple',
-	'Spinach',
-	'Anchovies',
-	'Artichokes',
-	'Ham',
-	'Tomatoes',
-	'Garlic',
-	'Jalapenos',
-	'Chicken',
-	'Bell peppers',
-	'Basil',
-	'Oregano',
-	'Tomato sauce',
-	'Mozzarella cheese',
-];
-
-const examplePizzas = [
-	{
-		id: uuid(),
-		name: 'Cheese',
-		toppings: ['Tomato sauce', 'Mozzarella cheese'],
-		image: CheeseImage,
-	},
-	{
-		id: uuid(),
-		name: 'Hawaiian',
-		toppings: ['Tomato sauce', 'Ham', 'Pineapple', 'Mozzarella cheese'],
-		image: HawaiianImage,
-	},
-	{
-		id: uuid(),
-		name: 'Pepperoni',
-		toppings: ['Tomato sauce', 'Pepperoni', 'Mozzarella cheese'],
-		image: PepperoniImage,
-	},
-	{
-		id: uuid(),
-		name: 'Sausage',
-		toppings: ['Tomato sauce', 'Sausage', 'Mozzarella cheese'],
-		image: SausageImage,
-	},
-	{
-		id: uuid(),
-		name: 'Supreme',
-		toppings: [
-			'Tomato sauce',
-			'Pepperoni',
-			'Sausage',
-			'Bell peppers',
-			'Onions',
-			'Black olives',
-			'Mozzarella cheese',
-		],
-		image: SupremeImage,
-	},
-];
+import PizzaList from './components/Pizzas/PizzaList';
 
 function App() {
-	const [toppingsList, setToppingsList] = useState(
-		toppings.sort((a, b) => a.localeCompare(b))
-	);
-	const [pizzas, setPizzas] = useState(examplePizzas);
-
-	// Function to handle editing a pizza card
-	const handleEdit = (updatedPizza) => {
-		const newPizzaList = [...pizzas];
-
-		const foundIndex = newPizzaList.findIndex((pizza) => {
-			return pizza.id === updatedPizza.id;
-		});
-
-		if (foundIndex === -1) {
-			return;
-		}
-
-		newPizzaList.splice(foundIndex, 1, updatedPizza);
-
-		setPizzas(newPizzaList);
-	};
-
-	// Function to handle deleting a pizza card
-	const handleDelete = (pizzaToDelete) => {
-		setPizzas((prevPizzas) =>
-			prevPizzas.filter((pizza) => pizza !== pizzaToDelete)
-		);
-	};
+	const [globalToppings, setGlobalToppings] = useState([]);
+	const [pizzas, setPizzas] = useState([]);
 
 	return (
 		<Grid container className='App'>
@@ -166,9 +67,9 @@ function App() {
 						alignItems: 'center',
 					}}>
 					<Box>
-						<ListWithCRUD
-							listItems={toppingsList}
-							updateList={setToppingsList}
+						<GlobalToppingsList
+							globalToppings={globalToppings}
+							setGlobalToppings={setGlobalToppings}
 						/>
 					</Box>
 				</Grid>
@@ -198,28 +99,15 @@ function App() {
 					mr: { xs: 0, md: 2 },
 					p: { xs: 0, md: 2 },
 				}}>
-				{pizzas.map((pizza) => (
-					<Grid
-						key={pizza.id}
-						item
-						xs={12}
-						sm={6}
-						md={4}
-						xl={3}
-						sx={{ pb: { xs: 2 } }}>
-						<PizzaCard
-							toppingsList={toppingsList}
-							pizza={pizza}
-							toppings={pizza.toppings}
-							onEditSave={handleEdit}
-							onDelete={handleDelete}
-						/>
-					</Grid>
-				))}
+				<PizzaList
+					pizzas={pizzas}
+					setPizzas={setPizzas}
+					globalToppings={globalToppings}
+				/>
 			</Grid>
 			<PizzaBuilder
-				toppings={toppingsList}
-				pizzaList={pizzas}
+				globalToppings={globalToppings}
+				pizzas={pizzas}
 				setPizzas={setPizzas}
 			/>
 		</Grid>

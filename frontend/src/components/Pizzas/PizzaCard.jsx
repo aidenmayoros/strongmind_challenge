@@ -43,9 +43,9 @@ function ShowPizza({ pizzaName, toppings, onDelete, handleEditClick }) {
 	);
 }
 
-const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
+const PizzaCard = ({ pizza, onDelete, onEditSave, globalToppings }) => {
 	const [pizzaName, setPizzaName] = useState(pizza.name);
-	const [pizzaToppings, setPizzaToppings] = useState(toppings);
+	const [pizzaToppings, setPizzaToppings] = useState(pizza.toppings);
 	const [isEditing, setIsEditing] = useState(false);
 	const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
 
@@ -54,9 +54,17 @@ const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
 		setPizzaToppings(pizza.toppings);
 	}, [pizza]);
 
-	const handleSaveClick = (newPizzaName, newToppings) => {
-		onEditSave({ ...pizza, name: newPizzaName, toppings: newToppings });
-		setIsEditing(false);
+	const handleSaveClick = async (updatedPizzaName, updatedToppings) => {
+		try {
+			await onEditSave({
+				...pizza,
+				name: updatedPizzaName,
+				toppings: updatedToppings,
+			});
+			setIsEditing(false);
+		} catch (err) {
+			alert('Failed to update pizza');
+		}
 	};
 
 	const handleEditClick = () => {
@@ -93,9 +101,10 @@ const PizzaCard = ({ pizza, toppings, onDelete, onEditSave, toppingsList }) => {
 				{isEditing ? (
 					<EditPizza
 						pizzaName={pizzaName}
+						setIsEditing={setIsEditing}
 						setPizzaName={setPizzaName}
 						toppings={pizzaToppings}
-						toppingsList={toppingsList}
+						globalToppings={globalToppings}
 						handleSaveClick={handleSaveClick}
 					/>
 				) : (

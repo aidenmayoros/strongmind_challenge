@@ -7,19 +7,22 @@ function EditPizza({
 	pizzaName,
 	setPizzaName,
 	toppings,
-	toppingsList,
+	globalToppings,
 	handleSaveClick,
+	setIsEditing,
 }) {
 	const [draftToppings, setDraftToppings] = useState(toppings);
+	const [draftPizzaName, setDraftPizzaName] = useState(pizzaName);
+	// Initial states, used for when hitting Cancel in edit mode
 	const [initialPizzaName, setInitialPizzaName] = useState(pizzaName);
 	const [initialToppings, setInitialToppings] = useState(toppings);
 
-	const toppingsNotOnPizza = toppingsList.filter((toppingFromList) => {
-		return !draftToppings.includes(toppingFromList);
+	const toppingsNotOnPizza = globalToppings.filter((toppingFromList) => {
+		return !draftToppings.includes(toppingFromList.name);
 	});
 
-	function handleAddToppingToPizza(toppingToAdd) {
-		setDraftToppings([...draftToppings, toppingToAdd]);
+	function setDraftPizzaTopping(toppingToAdd) {
+		setDraftToppings([...draftToppings, toppingToAdd.name]);
 	}
 
 	function handleDeleteToppingFromPizza(toppingToDelete) {
@@ -31,11 +34,14 @@ function EditPizza({
 	}
 
 	function handleSaveDraft() {
-		handleSaveClick(pizzaName, draftToppings);
+		handleSaveClick(draftPizzaName, draftToppings);
+		setPizzaName(draftPizzaName);
 	}
 
 	function handleCancelDraft() {
-		handleSaveClick(initialPizzaName, initialToppings);
+		setDraftToppings(initialToppings);
+		setDraftPizzaName(initialPizzaName);
+		setIsEditing(false);
 	}
 
 	function renderToppingsOnPizza() {
@@ -55,9 +61,9 @@ function EditPizza({
 		return toppingsNotOnPizza.map((toppingNotOnPizza) => {
 			return (
 				<Chip
-					key={toppingNotOnPizza}
-					onClick={() => handleAddToppingToPizza(toppingNotOnPizza)}
-					label={toppingNotOnPizza}
+					key={toppingNotOnPizza._id}
+					onClick={() => setDraftPizzaTopping(toppingNotOnPizza)}
+					label={toppingNotOnPizza.name}
 					sx={{ m: 1 }}
 				/>
 			);
@@ -68,8 +74,8 @@ function EditPizza({
 		<>
 			<TextField
 				label='Pizza Name'
-				value={pizzaName}
-				onChange={(e) => setPizzaName(e.target.value)}
+				value={draftPizzaName}
+				onChange={(e) => setDraftPizzaName(e.target.value)}
 				fullWidth
 				margin='normal'
 			/>
