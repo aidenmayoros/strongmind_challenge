@@ -10,6 +10,8 @@ const app = express();
 // Middleware to enable CORS
 app.use(cors());
 
+const path = require('path');
+
 // Body parser middleware to handle JSON data
 app.use(express.json());
 
