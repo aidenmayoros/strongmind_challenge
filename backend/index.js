@@ -6,13 +6,11 @@ require('dotenv').config();
 
 // Create an instance of Express
 const app = express();
-
+const path = require('path');
 app.use(express.static(path.join(__dirname, 'frontend_build')));
 
 // Middleware to enable CORS
 app.use(cors());
-
-const path = require('path');
 
 // Body parser middleware to handle JSON data
 app.use(express.json());
@@ -173,8 +171,10 @@ app.post('/update-global-topping', async (req, res) => {
 			.json({ error: `Error updating new global topping: ${name}` });
 	}
 });
-// Replace with the build file name
-app.use('*', express.static(path.join(__dirname, '/frontend_build')));
+
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, 'frontend_build', 'index.html'));
+});
 
 // Set the port for the server to listen on
 const port = process.env.PORT || 3001;
