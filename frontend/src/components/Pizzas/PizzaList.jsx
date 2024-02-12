@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import PizzaCard from './PizzaCard';
-import { PizzaURL } from '../../utils/pizza_url';
 
 function PizzaList({ pizzas, setPizzas, globalToppings }) {
 	async function onEditSave(pizza) {
-		let result = await axios.post(`${PizzaURL}/update-pizza`, pizza);
+		let result = await axios.post(`/update-pizza`, pizza);
 
 		const pizzaCopies = [...pizzas];
 
@@ -25,7 +24,7 @@ function PizzaList({ pizzas, setPizzas, globalToppings }) {
 
 	async function handleDelete(pizza) {
 		try {
-			await axios.delete(`${PizzaURL}/delete-pizza/${pizza._id}`);
+			await axios.delete(`/delete-pizza/${pizza._id}`);
 
 			// Update local state.
 			let pizzasCopy = [...pizzas];
@@ -51,7 +50,7 @@ function PizzaList({ pizzas, setPizzas, globalToppings }) {
 	}
 
 	async function fetchPizzas() {
-		let result = await axios.get(`${PizzaURL}/pizzas`);
+		let result = await axios.get(`/pizzas`);
 
 		setPizzas(result.data);
 	}

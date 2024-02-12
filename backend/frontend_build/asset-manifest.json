@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.754ebb54.css",
+    "main.js": "/static/js/main.b78e6b5f.js",
+    "static/media/sausage_pizza.webp": "/static/media/sausage_pizza.894c141f8eda16795307.webp",
+    "static/media/toppings_image.jpg": "/static/media/toppings_image.eb19cde21deed358e5e7.jpg",
+    "static/media/pepperoni_pizza.webp": "/static/media/pepperoni_pizza.fb4ca0bc6b62b7f9295a.webp",
+    "static/media/cheese_pizza.webp": "/static/media/cheese_pizza.3a02994fbd76da606243.webp",
+    "static/media/hawaiian_pizza.jpg": "/static/media/hawaiian_pizza.40266b2b3f917c418c70.jpg",
+    "static/media/supreme_pizza.jpg": "/static/media/supreme_pizza.4f2bd761112d374e1d4e.jpg",
+    "static/media/default_pizza.jpg": "/static/media/default_pizza.668826b9ae6148ef555e.jpg",
+    "index.html": "/index.html",
+    "main.754ebb54.css.map": "/static/css/main.754ebb54.css.map",
+    "main.b78e6b5f.js.map": "/static/js/main.b78e6b5f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.754ebb54.css",
+    "static/js/main.b78e6b5f.js"
+  ]
+}

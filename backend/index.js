@@ -119,9 +119,6 @@ app.get('/global-toppings', async (req, res) => {
 });
 
 app.post('/create-global-topping', async (req, res) => {
-	// {
-	//		name: 'Bacon123'
-	// }
 	const { name } = req.body;
 
 	try {
@@ -138,7 +135,6 @@ app.delete('/delete-global-topping/:id', async (req, res) => {
 
 	try {
 		const deletedTopping = await GlobalToppings.findByIdAndDelete(id);
-		console.log(deletedTopping);
 
 		if (!deletedTopping) {
 			return res
@@ -156,11 +152,6 @@ app.delete('/delete-global-topping/:id', async (req, res) => {
 });
 
 app.post('/update-global-topping', async (req, res) => {
-	// {
-	//      _id: 123456789,
-	//		name: 'Bacon123'
-	// }
-
 	const { _id, name } = req.body;
 
 	try {
@@ -179,7 +170,7 @@ app.post('/update-global-topping', async (req, res) => {
 	}
 });
 // Replace with the build file name
-// app.use('*', express.static(path.join(__dirname, '')));
+app.use('*', express.static(path.join(__dirname, '/frontend_build')));
 
 // Set the port for the server to listen on
 const port = process.env.PORT || 3001;

@@ -13,7 +13,6 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import DefaultPizzaImage from '../images/pizzas/default_pizza.jpg';
 import axios from 'axios';
-import { PizzaURL } from '../utils/pizza_url';
 
 import CheesePizzaImage from '../images/pizzas/cheese_pizza.webp';
 import HawaiianPizzaImage from '../images/pizzas/hawaiian_pizza.jpg';
@@ -33,7 +32,7 @@ function PizzaBuilder({ globalToppings, pizzas, setPizzas }) {
 
 	const createNewPizza = async (pizza) => {
 		try {
-			let result = await axios.post(`${PizzaURL}/create-pizza`, pizza);
+			let result = await axios.post('/create-pizza', pizza);
 
 			setPizzas([...pizzas, result.data]);
 

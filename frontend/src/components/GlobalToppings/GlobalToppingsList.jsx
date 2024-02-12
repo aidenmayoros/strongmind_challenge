@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ListWithCRUD from '../ListWithCRUD';
-import { PizzaURL } from '../../utils/pizza_url';
 
 function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 	const [isGettingGlobalToppings, setIsGettingGlobalToppings] = useState(false);
@@ -12,7 +11,7 @@ function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 	async function getAllGlobalToppings() {
 		try {
 			setIsGettingGlobalToppings(true);
-			const result = await axios.get(`${PizzaURL}/global-toppings`);
+			const result = await axios.get(`/global-toppings`);
 
 			setGlobalToppings(result.data);
 		} catch (error) {
@@ -27,7 +26,7 @@ function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 	async function addGlobalTopping(name) {
 		try {
 			setIsAddingGlobalTopping(true);
-			const result = await axios.post(`${PizzaURL}/create-global-topping`, {
+			const result = await axios.post(`/create-global-topping`, {
 				name: name,
 			});
 
@@ -44,7 +43,7 @@ function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 	async function updateGlobalTopping(_id, name) {
 		try {
 			setIsUpdatingGlobalTopping(true);
-			const result = await axios.post(`${PizzaURL}/update-global-topping`, {
+			const result = await axios.post(`/update-global-topping`, {
 				_id,
 				name,
 			});
@@ -70,7 +69,7 @@ function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 		try {
 			setIsRemovingGlobalTopping(true);
 
-			await axios.delete(`${PizzaURL}/delete-global-topping/${_id}`);
+			await axios.delete(`/delete-global-topping/${_id}`);
 
 			let globalToppingsCopy = [...globalToppings];
 			let index = globalToppingsCopy.findIndex((globalTopping) => {
