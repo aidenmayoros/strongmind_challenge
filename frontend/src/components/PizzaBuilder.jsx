@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import {
 	Box,
 	Button,
-	List,
-	ListItem,
-	ListItemText,
-	IconButton,
 	Typography,
 	Grid,
 	TextField,
+	Chip,
+	Card,
+	CardContent,
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import DefaultPizzaImage from '../images/pizzas/default_pizza.jpg';
 import axios from 'axios';
 
@@ -136,7 +134,11 @@ function PizzaBuilder({ globalToppings, pizzas, setPizzas }) {
 			</Box>
 			<Grid container spacing={2}>
 				{/* Available Toppings section */}
-				<Grid item xs={12} md={6} sx={{ order: { xs: 2, md: 1 } }}>
+				<Grid
+					item
+					xs={12}
+					md={6}
+					sx={{ order: { xs: 2, md: 1 }, minHeight: { md: '50vh' } }}>
 					<Typography
 						variant='h6'
 						gutterBottom
@@ -149,36 +151,24 @@ function PizzaBuilder({ globalToppings, pizzas, setPizzas }) {
 						}}>
 						Available Toppings:
 					</Typography>
-					<Grid
-						container
-						spacing={1}
-						sx={{ maxHeight: '400px', overflowY: 'auto' }}>
-						{globalToppings.map((globalTopping) => (
+
+					<Card variant='outlined' sx={{ minWidth: 275, minHeight: 300 }}>
+						<CardContent>
 							<Grid
-								item
-								xs={12}
-								sm={6}
-								key={globalTopping._id}
-								sx={{
-									mb: 1,
-									ml: { xs: '2rem', sm: '0' },
-									mr: { xs: '2rem', sm: '0' },
-								}}>
-								<Button
-									variant='contained'
-									color='primary'
-									sx={{
-										mt: 1,
-										mb: 1,
-										backgroundColor: '#319b8b',
-										width: '100%',
-									}}
-									onClick={() => handleAddTopping(globalTopping.name)}>
-									{globalTopping.name}
-								</Button>
+								container
+								spacing={1}
+								sx={{ maxHeight: '400px', overflowY: 'auto' }}>
+								{globalToppings.map((globalTopping) => (
+									<Grid item key={globalTopping._id}>
+										<Chip
+											label={globalTopping.name}
+											onClick={() => handleAddTopping(globalTopping.name)}
+										/>
+									</Grid>
+								))}
 							</Grid>
-						))}
-					</Grid>
+						</CardContent>
+					</Card>
 				</Grid>
 				{/* Selected Toppings section */}
 				<Grid
@@ -193,50 +183,28 @@ function PizzaBuilder({ globalToppings, pizzas, setPizzas }) {
 							color: '#8c0f04',
 							letterSpacing: 1,
 							mb: 0,
-							pt: 2,
+							p: 2,
 							textAlign: 'center',
 						}}>
 						Selected Toppings:
 					</Typography>
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-						}}>
-						<Box
-							sx={{
-								m: 1,
-								p: 2,
-								minHeight: { xs: '200px', md: '300px' },
-								maxHeight: { xs: '200px', md: '400px' },
-								overflowY: 'auto',
-								minWidth: { xs: '200px', md: '300px' },
-								maxWidth: { xs: '200px', md: 'none' },
-								border: '1px solid rgba(0, 0, 0, .2)',
-								borderRadius: '4px',
-								backgroundColor: '#fedfdf85',
-							}}>
-							<List
-								sx={{
-									display: 'flex',
-									flexDirection: 'column',
-									justifyContent: 'center',
-									alignItems: 'center',
-								}}>
-								{selectedToppings.map((topping, index) => (
-									<ListItem key={index} sx={{ maxWidth: '300px' }}>
-										<ListItemText primary={topping} />
-										<IconButton
-											edge='end'
-											aria-label='delete'
-											onClick={() => handleRemoveTopping(topping)}>
-											<DeleteIcon />
-										</IconButton>
-									</ListItem>
-								))}
-							</List>
-						</Box>
-					</Box>
+
+					<Card variant='outlined' sx={{ minWidth: 275, minHeight: 300 }}>
+						<CardContent>
+							<Grid container spacing={1}>
+								{selectedToppings.map((topping, index) => {
+									return (
+										<Chip
+											sx={{ m: '4px' }}
+											key={index}
+											label={topping}
+											onDelete={() => handleRemoveTopping(topping)}
+										/>
+									);
+								})}
+							</Grid>
+						</CardContent>
+					</Card>
 				</Grid>
 			</Grid>
 		</Box>

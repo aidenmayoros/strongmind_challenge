@@ -60,6 +60,7 @@ let GlobalToppings = mongoose.model('GlobalToppings', globalToppingsSchema);
 let pizzaSchema = new mongoose.Schema({
 	name: String,
 	toppings: [String],
+	image: String,
 });
 
 let Pizza = mongoose.model('Pizza', pizzaSchema);
@@ -71,12 +72,14 @@ app.get('/pizzas', async (req, res) => {
 });
 
 app.post('/create-pizza', async (req, res) => {
-	const { name, toppings } = req.body;
+	const { name, toppings, image } = req.body;
+	console.log(name, toppings, image);
 
 	try {
 		const newPizza = await Pizza.create({
 			name,
 			toppings,
+			image,
 		});
 
 		res.status(200).json(newPizza);
@@ -184,10 +187,6 @@ app.post('/update-global-topping', async (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, 'frontend_build')));
-
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname, 'frontend_build', 'index.html'));
-});
 
 // Set the port for the server to listen on
 const port = process.env.PORT || 3001;

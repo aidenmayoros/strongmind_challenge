@@ -94,7 +94,7 @@ const PizzaCard = ({ pizza, onDelete, onEditSave, globalToppings }) => {
 			<CardMedia
 				component='img'
 				height='240'
-				image={pizza.image}
+				src={pizza.image}
 				alt={pizzaName}
 			/>
 			<CardContent>
