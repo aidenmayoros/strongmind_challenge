@@ -7,6 +7,8 @@ require('dotenv').config();
 // Create an instance of Express
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'frontend_build')));
+
 // Middleware to enable CORS
 app.use(cors());
 
