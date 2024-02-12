@@ -8,18 +8,20 @@ require('dotenv').config();
 const app = express();
 const path = require('path');
 
-const allowedOrigins = ['http://localhost:3000', 'http://54.81.36.144:8080'];
+// const allowedOrigins = ['http://localhost:3000', 'http://54.81.36.144:8080'];
 
-const corsOptions = {
-	origin: function (origin, callback) {
-		// Check if the origin is in the list of allowed origins
-		const isAllowed = allowedOrigins.includes(origin) || !origin;
-		callback(null, isAllowed);
-	},
-};
+app.use(cors({ origin: '*' }));
 
-// Middleware to enable CORS
-app.use(cors(corsOptions));
+// const corsOptions = {
+// 	origin: function (origin, callback) {
+// 		// Check if the origin is in the list of allowed origins
+// 		const isAllowed = allowedOrigins.includes(origin) || !origin;
+// 		callback(null, isAllowed);
+// 	},
+// };
+
+// // Middleware to enable CORS
+// app.use(cors(corsOptions));
 
 // Body parser middleware to handle JSON data
 app.use(express.json());
