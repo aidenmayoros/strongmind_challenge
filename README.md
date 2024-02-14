@@ -58,6 +58,9 @@ Before running the project, ensure you have the following installed:
     ```bash
     # Install backend dependencies
     cd backend
+
+    # Use updated node version
+    nvm use
     npm install
 
     # Install frontend dependencies
@@ -83,7 +86,12 @@ Before running the project, ensure you have the following installed:
 
   - Configure files:
 
-    - Create in the /backend folder a .env file. Inside of this file make a single variable called `MONGOOSE_PASSWORD=<your-cluster-password>` and replace the password with your own from the created user when you made your cluster. 
+    - Create in the /backend folder a .env file. Inside of this file make a single variable called `MONGOOSE_URL` and set it equal to your cluster's connection string from the newly created cluster.
+
+    ```bash
+    # Example .env
+    MONGOOSE_URL=your_connection_string
+    ```
 
 2. Frontend Configuration:
 
@@ -129,7 +137,9 @@ Before running the project, ensure you have the following installed:
 
 ## Usage
 
-You will need to have first the backend running in a terminal, and then start and run the frontend in another terminal. Once your frontend opens and runs you should be able to see all the data from the backend into the respective areas. You should be able to run CRUD operations and you should be able to save new toppings and create new pizzas.
+You will need to create some pizza toppings first as there will be none in your database. You then can use those toppings to make some pizzas. If you enter the name of some common pizzas like Cheese and Pepperoni there should be images matching them.
+
+You should first have the backend running in a terminal, and then run the frontend in another terminal otherwise the frontend will not work as it has no connection to the database.
 
 ## Site Screenshots
 

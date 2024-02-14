@@ -27,7 +27,7 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 // MongoDB connection URI
-const mongoURI = `mongodb+srv://aidenmayoros:${process.env.MONGOOSE_PASSWORD}@strongmindcluster0.kxcbhkc.mongodb.net/?retryWrites=true&w=majority`;
+const mongoURI = process.env.MONGOOSE_URL;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI);

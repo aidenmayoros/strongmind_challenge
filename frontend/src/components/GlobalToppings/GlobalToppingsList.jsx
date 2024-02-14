@@ -16,8 +16,6 @@ function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 			setGlobalToppings(result.data);
 		} catch (error) {
 			alert('Failed to fetch global toppings');
-
-			throw error;
 		} finally {
 			setIsGettingGlobalToppings(false);
 		}
@@ -33,8 +31,6 @@ function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 			setGlobalToppings([...globalToppings, result.data]);
 		} catch (error) {
 			alert('There was an issue adding a topping.');
-
-			throw error;
 		} finally {
 			setIsAddingGlobalTopping(false);
 		}
@@ -59,7 +55,6 @@ function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 
 			setGlobalToppings(globalToppingsCopy);
 		} catch (error) {
-			throw error;
 		} finally {
 			setIsUpdatingGlobalTopping(false);
 		}
@@ -86,8 +81,6 @@ function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 			setGlobalToppings(globalToppingsCopy);
 		} catch (error) {
 			alert('There was an issue deleting a topping.');
-
-			throw error;
 		} finally {
 			setIsRemovingGlobalTopping(false);
 		}

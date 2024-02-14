@@ -43,8 +43,6 @@ function PizzaList({ pizzas, setPizzas, globalToppings }) {
 			setPizzas(pizzasCopy);
 		} catch (error) {
 			alert('There was an issue deleting a pizza.');
-
-			throw error;
 		} finally {
 		}
 	}
