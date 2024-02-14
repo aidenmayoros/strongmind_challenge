@@ -91,7 +91,7 @@ nvm --version
     - Make sure your IP address is listed to have access to the Database.
     - Once Cluster is created click on `Connect`.
     - Select `Drivers` - Driver should be Node.js, make sure the ODM/ORM Library has Mongoose selected. 
-    Version 7.0 or later and run the npm command showing `npm install mongoose`.
+    Version 7.0 or later and run the npm command showing `npm install mongoose` on your machine globally or inside the project root directory.
     - Copy the connection string and edit it to have your account password and save it as we will need it later. Example: `mongodb+srv://username:<password>@examplecluster0.kxcbhkc.mongodb.net/?retryWrites=true&w=majority`
 
 1. Backend Configuration:
