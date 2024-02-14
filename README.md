@@ -34,8 +34,20 @@ Developing a front end, back end, database and having the application hosted onl
 
 Before running the project, ensure you have the following installed:
 
-1. Node.js and npm (Node Package Manager)
-2. MongoDB
+1. Node.js and npm (Node Package Manager) by following the offical docs on the [Node.js Website](https://nodejs.org/en/download)
+2. Install NVM (Node Version Manager) 
+```bash 
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+```
+
+- After the installation is complete, close and reopen your terminal.
+Verify the installation by running the following command:
+
+```bash
+nvm --version
+```
+
+3. MongoDB
     - Recommend using MongoDB Atlas which was used for the project by owner. [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
 
 
