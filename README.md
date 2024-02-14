@@ -83,7 +83,7 @@ Before running the project, ensure you have the following installed:
 
   - Configure files:
 
-    - Create in the root folder a .env file. Inside of this file make a single variable called `MONGOOSE_PASSWORD=<your-cluster-password>` and replace the password with your own from the created user when you made your cluster. 
+    - Create in the /backend folder a .env file. Inside of this file make a single variable called `MONGOOSE_PASSWORD=<your-cluster-password>` and replace the password with your own from the created user when you made your cluster. 
 
 2. Frontend Configuration:
 
@@ -95,7 +95,7 @@ Before running the project, ensure you have the following installed:
 
     ```bash
     # Navigate into the project directory
-    cd project
+    cd strongmind_challenge
 
     # Navigate to the backend directory
     cd backend
@@ -116,7 +116,7 @@ Before running the project, ensure you have the following installed:
     # Open a new terminal
 
     # Navigate to project directory
-    cd project
+    cd strongmind_challenge
 
     # Navigate to the frontend directory
     cd frontend
