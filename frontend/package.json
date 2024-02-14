@@ -44,6 +44,19 @@
 		]
 	},
 	"devDependencies": {
-		"@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+		"@babel/preset-env": "^7.23.9",
+		"@babel/preset-react": "^7.23.3",
+		"babel-jest": "^29.7.0",
+		"jest": "^27.5.1",
+		"jest-preview": "^0.3.1",
+		"msw": "^2.2.0",
+		"nock": "^13.5.1",
+		"react-test-renderer": "^18.2.0"
+	},
+	"jest": {
+		"transformIgnorePatterns": [
+			"/node_modules/(?!(axios|react-day-picker)/)"
+		]
 	}
 }
