@@ -1,16 +1,12 @@
-// Import necessary modules
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-// Create an instance of Express
 const app = express();
 const path = require('path');
 
 // const allowedOrigins = ['http://localhost:3000', 'http://54.81.36.144:8080'];
-
-app.use(cors({ origin: '*' }));
 
 // const corsOptions = {
 // 	origin: function (origin, callback) {
@@ -23,13 +19,15 @@ app.use(cors({ origin: '*' }));
 // // Middleware to enable CORS
 // app.use(cors(corsOptions));
 
+// CORS for anywhere
+app.use(cors({ origin: '*' }));
+
 // Body parser middleware to handle JSON data
 app.use(express.json());
 
 // MongoDB connection URI
 const mongoURI = process.env.MONGOOSE_URL;
 
-// Connect to MongoDB
 mongoose.connect(mongoURI);
 
 // Check MongoDB connection status
@@ -39,13 +37,7 @@ db.once('open', () => {
 	console.log('Connected to MongoDB');
 });
 
-// Toppings
-const toppingSchema = new mongoose.Schema({
-	name: String,
-});
-
-let Topping = mongoose.model('Topping', toppingSchema);
-
+// Toppings Schema
 const globalToppingsSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -56,7 +48,7 @@ const globalToppingsSchema = new mongoose.Schema({
 
 let GlobalToppings = mongoose.model('GlobalToppings', globalToppingsSchema);
 
-// Pizzas
+// Pizzas Schema
 let pizzaSchema = new mongoose.Schema({
 	name: String,
 	toppings: [String],
@@ -65,12 +57,14 @@ let pizzaSchema = new mongoose.Schema({
 
 let Pizza = mongoose.model('Pizza', pizzaSchema);
 
+// Endpoint to get all pizzas in database
 app.get('/pizzas', async (req, res) => {
 	const allPizzas = await Pizza.find();
 
 	res.send(allPizzas);
 });
 
+// Endpoint to create a new pizza
 app.post('/create-pizza', async (req, res) => {
 	const { name, toppings, image } = req.body;
 	console.log(name, toppings, image);
@@ -89,6 +83,7 @@ app.post('/create-pizza', async (req, res) => {
 	}
 });
 
+// Endpoint to delete a single pizza
 app.delete('/delete-pizza/:id', async (req, res) => {
 	const { id } = req.params;
 
@@ -106,6 +101,7 @@ app.delete('/delete-pizza/:id', async (req, res) => {
 	}
 });
 
+// Endpoint to update a single pizza
 app.post('/update-pizza', async (req, res) => {
 	const { _id, name, toppings } = req.body;
 
@@ -128,12 +124,14 @@ app.post('/update-pizza', async (req, res) => {
 	}
 });
 
+// Endpoint to get all pizza toppings
 app.get('/global-toppings', async (req, res) => {
 	const allToppings = await GlobalToppings.find();
 
 	res.send(allToppings);
 });
 
+// Endpoint to create a new pizza topping
 app.post('/create-global-topping', async (req, res) => {
 	const { name } = req.body;
 
@@ -146,6 +144,7 @@ app.post('/create-global-topping', async (req, res) => {
 	}
 });
 
+// Endpoint to delete a single pizza topping
 app.delete('/delete-global-topping/:id', async (req, res) => {
 	const { id } = req.params;
 
@@ -167,6 +166,7 @@ app.delete('/delete-global-topping/:id', async (req, res) => {
 	}
 });
 
+// Endpoint to update a single topping
 app.post('/update-global-topping', async (req, res) => {
 	const { _id, name } = req.body;
 
@@ -188,7 +188,6 @@ app.post('/update-global-topping', async (req, res) => {
 
 app.use(express.static(path.join(__dirname, 'frontend_build')));
 
-// Set the port for the server to listen on
 const port = process.env.PORT || 3001;
 
 // Start the server
