@@ -44,7 +44,7 @@ function GlobalToppingsList({ globalToppings, setGlobalToppings }) {
 				name,
 			});
 
-			// Update local state.
+			// Update global toppings with updated topping to re-render local state.
 			let globalToppingsCopy = [...globalToppings];
 
 			let index = globalToppingsCopy.findIndex((globalTopping) => {

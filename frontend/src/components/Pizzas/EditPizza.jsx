@@ -13,6 +13,7 @@ function EditPizza({
 }) {
 	const [draftToppings, setDraftToppings] = useState(toppings);
 	const [draftPizzaName, setDraftPizzaName] = useState(pizzaName);
+
 	// Initial states, used for when hitting Cancel in edit mode
 	const [initialPizzaName, setInitialPizzaName] = useState(pizzaName);
 	const [initialToppings, setInitialToppings] = useState(toppings);
